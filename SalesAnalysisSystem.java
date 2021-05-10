@@ -7,11 +7,12 @@ class SalesAnalysisSystem {
     public static void main(String[] args) {
 
         try{
-
-        
-            Scanner reader = new Scanner(System.in);
             
-            Scanner scan = new Scanner (new File("C:\\Users\\Ubaid Khan\\OneDrive\\Desktop\\sales.csv"));
+            Scanner reader = new Scanner(System.in); 
+            System.out.println("Enter file path:");
+            String filePath = reader.nextLine();
+
+            Scanner scan = new Scanner (new File(filePath));
             
             int lineCounters = 0;
             String input;
@@ -24,9 +25,11 @@ class SalesAnalysisSystem {
                 digitCounters = putArray(index, digitCounters);
                 lineCounters = lineCounters + 1;
             }
+            for(int i = 0; i < digitCounters.length; i++) {
+                System.out.println(digitCounters[i]);
+            }
             
             lineCounters = lineCounters - 1;
-            
             double[] frequency = new double[9];
             calculateFrequency(frequency, digitCounters, lineCounters);
             resultsFile(frequency);
