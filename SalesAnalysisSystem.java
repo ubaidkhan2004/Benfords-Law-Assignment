@@ -1,15 +1,17 @@
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
 class SalesAnalysisSystem {
     public static void main(String[] args) {
 
         try{
-            Scanner reader = new Scanner(System.in);
             
-            System.out.println("Enter file address");
+            Scanner reader = new Scanner(System.in); 
+            System.out.println("Enter file path:");
             String filePath = reader.nextLine();
-            
+
             Scanner scan = new Scanner (new File(filePath));
             
             int lineCounters = 0;
@@ -23,15 +25,20 @@ class SalesAnalysisSystem {
                 digitCounters = putArray(index, digitCounters);
                 lineCounters = lineCounters + 1;
             }
+            for(int i = 0; i < digitCounters.length; i++) {
+                System.out.println(digitCounters[i]);
+            }
             
             lineCounters = lineCounters - 1;
-            
             double[] frequency = new double[9];
             calculateFrequency(frequency, digitCounters, lineCounters);
+            resultsFile(frequency);
         }
         catch(IOException e) {
             e.printStackTrace();
+
         }
+        
 
     }
 
@@ -91,5 +98,23 @@ class SalesAnalysisSystem {
         }
 
         return frequency;
+    }
+
+    public static void resultsFile(double[] frequency) {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Where do you want to store the file:");
+        String fileLocation = reader.nextLine();
+        
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileLocation));
+            bw.write("First digit, frequency \n");
+            for(int i = 0; i < frequency.length; i++) {
+                bw.write( i + 1 + "," + frequency[i] + "% \n");
+            }
+            bw.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
