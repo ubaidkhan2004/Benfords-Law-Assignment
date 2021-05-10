@@ -11,7 +11,7 @@ class SalesAnalysisSystem {
         
             Scanner reader = new Scanner(System.in);
             
-            Scanner scan = new Scanner (new File("C:\\Users\\Ubaid Khan\\Downloads\\postal_codes (1).csv"));
+            Scanner scan = new Scanner (new File("C:\\Users\\Ubaid Khan\\OneDrive\\Desktop\\sales.csv"));
             
             int lineCounters = 0;
             String input;
