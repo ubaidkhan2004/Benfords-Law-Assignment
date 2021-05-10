@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
-import java.io.*;
+import java.io.IOException;
 class SalesAnalysisSystem {
     public static void main(String[] args) {
 
@@ -34,7 +34,7 @@ class SalesAnalysisSystem {
             calculateFrequency(frequency, digitCounters, lineCounters);
             resultsFile(frequency);
         }
-        catch(FileNotFoundException e) {
+        catch(IOException e) {
             e.printStackTrace();
 
         }
@@ -102,21 +102,15 @@ class SalesAnalysisSystem {
 
     public static void resultsFile(double[] frequency) {
         Scanner reader = new Scanner(System.in);
-        //System.out.println("Where do you want to store the file:");
-        String fileLocation = "C:/Users/Public/Desktop/sales.csv";
+        System.out.println("Where do you want to store the file:");
+        String fileLocation = reader.nextLine();
         
         try{
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileLocation));
             bw.write("First digit, frequency \n");
-            bw.write("1, " + frequency[0]);
-            bw.write("2, " + frequency[1]);
-            bw.write("3, " + frequency[2]);
-            bw.write("4, " + frequency[3]);
-            bw.write("5, " + frequency[4]);
-            bw.write("6, " + frequency[5]);
-            bw.write("7, " + frequency[6]);
-            bw.write("8, " + frequency[7]);
-            bw.write("9, " + frequency[8]);
+            for(int i = 0; i < frequency.length; i++) {
+                bw.write( i + 1 + "," + frequency[i] + "% \n");
+            }
             bw.close();
         }
         catch(Exception e) {
