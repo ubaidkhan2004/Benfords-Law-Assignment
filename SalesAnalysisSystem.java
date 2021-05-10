@@ -1,16 +1,17 @@
 import java.util.Scanner;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.*;
 class SalesAnalysisSystem {
     public static void main(String[] args) {
 
         try{
+
+        
             Scanner reader = new Scanner(System.in);
             
-            System.out.println("Enter file address");
-            String filePath = reader.nextLine();
-            
-            Scanner scan = new Scanner (new File(filePath));
+            Scanner scan = new Scanner (new File("C:\\Users\\Ubaid Khan\\Downloads\\postal_codes (1).csv"));
             
             int lineCounters = 0;
             String input;
@@ -28,10 +29,13 @@ class SalesAnalysisSystem {
             
             double[] frequency = new double[9];
             calculateFrequency(frequency, digitCounters, lineCounters);
+            resultsFile(frequency);
         }
-        catch(IOException e) {
+        catch(FileNotFoundException e) {
             e.printStackTrace();
+
         }
+        
 
     }
 
@@ -91,5 +95,29 @@ class SalesAnalysisSystem {
         }
 
         return frequency;
+    }
+
+    public static void resultsFile(double[] frequency) {
+        Scanner reader = new Scanner(System.in);
+        //System.out.println("Where do you want to store the file:");
+        String fileLocation = "C:/Users/Public/Desktop/sales.csv";
+        
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileLocation));
+            bw.write("First digit, frequency \n");
+            bw.write("1, " + frequency[0]);
+            bw.write("2, " + frequency[1]);
+            bw.write("3, " + frequency[2]);
+            bw.write("4, " + frequency[3]);
+            bw.write("5, " + frequency[4]);
+            bw.write("6, " + frequency[5]);
+            bw.write("7, " + frequency[6]);
+            bw.write("8, " + frequency[7]);
+            bw.write("9, " + frequency[8]);
+            bw.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
