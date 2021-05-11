@@ -1,3 +1,4 @@
+//Importing necessary packages
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
@@ -5,35 +6,46 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 class SalesAnalysisSystem {
     public static void main(String[] args) {
-
+        
         try{
-            
+            //Initialize scanner
             Scanner reader = new Scanner(System.in); 
+            //Asking user for sales file location
             System.out.println("Enter file path:");
             String filePath = reader.nextLine();
 
             Scanner scan = new Scanner (new File(filePath));
             
+            //Counts the amount of numbers in the file
             int lineCounters = 0;
-            String input;
+            //Current line the scanner is on
+            String currentLine;
+            //What the first digit is
             char index;
+            //Array to store the amount of times a certain digit occurs
             double[] digitCounters = new double[9];
             
+            //While scanner is reading the file
             while(scan.hasNextLine()) {
-                input = scan.nextLine();
-                index = (firstDigit(input));
+                currentLine = scan.nextLine();
+                //Find the first digit
+                index = (firstDigit(currentLine));
+                //Add the first digit to the counting array
                 digitCounters = putArray(index, digitCounters);
+                //Add one each time a line is read
                 lineCounters = lineCounters + 1;
             }
-            for(int i = 0; i < digitCounters.length; i++) {
-                System.out.println(digitCounters[i]);
-            }
-            
+
+            //Subtract initial line
             lineCounters = lineCounters - 1;
+            //The percentage of each digit appearing in the data set
             double[] frequency = new double[9];
+            //Calculating the percentage of each digit appearing in the data set
             calculateFrequency(frequency, digitCounters, lineCounters);
+            //Outputting the results of the first digits in the data set
             resultsFile(frequency);
         }
+        //Catch errors due to the data file
         catch(IOException e) {
             e.printStackTrace();
 
@@ -42,8 +54,8 @@ class SalesAnalysisSystem {
 
     }
 
-    public static char firstDigit(String input) {
-        char index = input.charAt(4);
+    public static char firstDigit(String currentLine) {
+        char index = currentLine.charAt(4);
         return index;
     }
 
@@ -102,7 +114,7 @@ class SalesAnalysisSystem {
 
     public static void resultsFile(double[] frequency) {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Where do you want to store the file:");
+        System.out.println("Where do you want to store the results file:");
         String fileLocation = reader.nextLine();
         
         try{
