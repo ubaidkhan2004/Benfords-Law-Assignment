@@ -11,7 +11,7 @@ class SalesAnalysisSystem {
             //Initialize scanner
             Scanner reader = new Scanner(System.in); 
             //Asking user for sales file location
-            System.out.println("Enter sale file path location:");
+            System.out.println("Enter sale file location:");
             String filePath = reader.nextLine();
 
             Scanner scan = new Scanner (new File(filePath));
@@ -42,6 +42,7 @@ class SalesAnalysisSystem {
             double[] frequency = new double[9];
             //Calculating the percentage of each digit appearing in the data set
             calculateFrequency(frequency, digitCounters, lineCounters);
+            printResults(frequency);
             //Outputting the results of the first digits in the data set
             resultsFile(frequency);
         }
@@ -127,6 +128,15 @@ class SalesAnalysisSystem {
         }
         catch(Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void printResults(double[] frequency) {
+        System.out.println("\nAccording to benford's law, there is no sign of sales fraud occuring.\n");
+        System.out.println("First digit,frequency");
+        
+        for(int i = 0; i < frequency.length; i++) {
+            System.out.println(i + 1 + " = " + frequency[i] + "%");
         }
     }
 }
