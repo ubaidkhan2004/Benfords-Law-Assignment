@@ -11,7 +11,7 @@ class SalesAnalysisSystem {
             //Initialize scanner
             Scanner reader = new Scanner(System.in); 
             //Asking user for sales file location
-            System.out.println("Enter file path:");
+            System.out.println("Enter sale file path location:");
             String filePath = reader.nextLine();
 
             Scanner scan = new Scanner (new File(filePath));
