@@ -1,3 +1,10 @@
+/*
+ * Name: Dennis and Ubaid
+ * Date: May 11, 2021
+ * Teacher: Mr.Ho
+ * Description: This program determines if sales fraud is likely to be occured or not 
+ */
+
 //Importing necessary packages
 import java.util.Scanner;
 import java.io.File;
