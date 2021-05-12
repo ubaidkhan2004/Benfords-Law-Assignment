@@ -70,43 +70,43 @@ class SalesAnalysisSystem extends JPanel {
             printResults(frequency);
            
             //Setting up new screen and size
-        JFrame f = new JFrame();
-        f.setSize(500, 400);
-        //Setting up arrays which are needed to create the bar graph
-        double[] values = new double[9];
-        String[] names = new String[9];
-        //Populating the arrays
-        for(int i=0; i < values.length; i++) {
-            values[i] = frequency[i];
-        }
-        names[0] = "1";
-        names[1] = "2";
-        names[2] = "3";
-        names[3] = "4";
-        names[4] = "5";
-        names[5] = "6";
-        names[6] = "7";
-        names[7] = "8";
-        names[8] = "9";
-        
-        //Create graph
-        f.getContentPane().add(new SalesAnalysisSystem(values, names, "First Digit Distribution"));
-        
-        //Open window
-        WindowListener wndCloser = new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-            System.exit(0);
+            JFrame f = new JFrame();
+            f.setSize(500, 400);
+            //Setting up arrays which are needed to create the bar graph
+            double[] values = new double[9];
+            String[] names = new String[9];
+            //Populating the arrays
+            for(int i=0; i < values.length; i++) {
+                values[i] = frequency[i];
             }
-        };
-        f.addWindowListener(wndCloser);
-        f.setVisible(true);
+            names[0] = "1";
+            names[1] = "2";
+            names[2] = "3";
+            names[3] = "4";
+            names[4] = "5";
+            names[5] = "6";
+            names[6] = "7";
+            names[7] = "8";
+            names[8] = "9";
+        
+            //Create graph
+            f.getContentPane().add(new SalesAnalysisSystem(values, names, "First Digit Distribution"));
+        
+            //Open window
+            WindowListener wndCloser = new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            };
+             
+            f.addWindowListener(wndCloser);
+            f.setVisible(true);
+            
             //Outputting the results of the first digits in a csv file
             resultsFile(frequency);
         }
-        //Catch errors due to the data file
         catch(IOException e) {
             e.printStackTrace();
-
         }
     }
     /*
@@ -247,15 +247,16 @@ class SalesAnalysisSystem extends JPanel {
         super.paintComponent(g);
         //Creating demensions of the bar garph
         if (values == null || values.length == 0)
-            return;
+        return;
         double minValue = 0;
         double maxValue = 0;
         for (int i = 0; i < values.length; i++) {
-             if (minValue > values[i])
-             minValue = values[i];
-             if (maxValue < values[i])
-             maxValue = values[i];
+            if (minValue > values[i])
+            minValue = values[i];
+            if (maxValue < values[i])
+            maxValue = values[i];
         }
+
         //Creating dimensions of the bar garph
         Dimension d = getSize();
         int clientWidth = d.width;
@@ -278,7 +279,7 @@ class SalesAnalysisSystem extends JPanel {
         int top = titleFontMetrics.getHeight();
         int bottom = labelFontMetrics.getHeight();
         if (maxValue == minValue)
-          return;
+        return;
         double scale = (clientHeight - top - bottom) / (maxValue - minValue);
         y = clientHeight - labelFontMetrics.getDescent();
         g.setFont(labelFont);
@@ -294,7 +295,7 @@ class SalesAnalysisSystem extends JPanel {
               valueY += (int) (maxValue * scale);
               height = -height;
             }
-            //Drawing bars
+            //Drawing bars and setting colour
             g.setColor(Color.green);
             g.fillRect(valueX, valueY, barWidth - 2, height);
             g.setColor(Color.black);
