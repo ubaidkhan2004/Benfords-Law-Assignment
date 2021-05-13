@@ -68,6 +68,39 @@ class SalesAnalysisSystem extends JPanel {
             calculateFrequency(frequency, digitCounters, lineCounters);
             //Outputting results after analyzing the data
             printResults(frequency);
+           
+            //Setting up new screen and size
+            JFrame f = new JFrame();
+            f.setSize(500, 400);
+            //Setting up arrays which are needed to create the bar graph
+            double[] values = new double[9];
+            String[] names = new String[9];
+            //Populating the arrays
+            for(int i=0; i < values.length; i++) {
+                values[i] = frequency[i];
+            }
+            names[0] = "1";
+            names[1] = "2";
+            names[2] = "3";
+            names[3] = "4";
+            names[4] = "5";
+            names[5] = "6";
+            names[6] = "7";
+            names[7] = "8";
+            names[8] = "9";
+        
+            //Create graph
+            f.getContentPane().add(new SalesAnalysisSystem(values, names, "First Digit Distribution"));
+        
+            //Open window
+            WindowListener wndCloser = new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            };
+             
+            f.addWindowListener(wndCloser);
+            f.setVisible(true);
             
             //Outputting the results of the first digits in a csv file
             resultsFile(frequency);
@@ -193,6 +226,83 @@ class SalesAnalysisSystem extends JPanel {
         }
         else{
             System.out.println("\nThe data dose not pass the benford's law and therefore it is likely that fraud occured.\n");
+        }
+    }
+    /*
+     *@Description: Setup and initialize necessary variables which are needed to create the graph
+     *@Parameter: double[] v, String[] n, String t
+     *@Return: It will return not return anything
+    */
+    public SalesAnalysisSystem(double[] v, String[] n, String t) {
+        names = n;
+        values = v;
+        title = t;
+    }
+    /*
+     *@Description: Create components of the bar graph
+     *@Parameter: Graphics g
+     *@Return: It will return not return anything as it is a void method
+    */
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        //Creating demensions of the bar garph
+        if (values == null || values.length == 0)
+        return;
+        double minValue = 0;
+        double maxValue = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (minValue > values[i])
+            minValue = values[i];
+            if (maxValue < values[i])
+            maxValue = values[i];
+        }
+
+        //Creating dimensions of the bar garph
+        Dimension d = getSize();
+        int clientWidth = d.width;
+        int clientHeight = d.height;
+        int barWidth = clientWidth / values.length;
+
+        //Setting up font and titles
+        Font titleFont = new Font("SansSerif", Font.BOLD, 25);
+        FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
+        Font labelFont = new Font("SansSerif", Font.PLAIN, 15);
+        FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
+
+        //Drawing and formatting titles
+        int titleWidth = titleFontMetrics.stringWidth(title);
+        int y = titleFontMetrics.getAscent();
+        int x = (clientWidth - titleWidth) / 2;
+        g.setFont(titleFont);
+        g.drawString(title, x, y);
+
+        int top = titleFontMetrics.getHeight();
+        int bottom = labelFontMetrics.getHeight();
+        if (maxValue == minValue)
+        return;
+        double scale = (clientHeight - top - bottom) / (maxValue - minValue);
+        y = clientHeight - labelFontMetrics.getDescent();
+        g.setFont(labelFont);
+        
+        //Creating bars
+        for (int i = 0; i < values.length; i++) {
+            int valueX = i * barWidth + 1;
+            int valueY = top;
+            int height = (int) (values[i] * scale);
+            if (values[i] >= 0)
+              valueY += (int) ((maxValue - values[i]) * scale);
+            else {
+              valueY += (int) (maxValue * scale);
+              height = -height;
+            }
+            //Drawing bars and setting colour
+            g.setColor(Color.green);
+            g.fillRect(valueX, valueY, barWidth - 2, height);
+            g.setColor(Color.black);
+            g.drawRect(valueX, valueY, barWidth - 2, height);
+            int labelWidth = labelFontMetrics.stringWidth(names[i]);
+            x = i * barWidth + (barWidth - labelWidth) / 2;
+            g.drawString(names[i], x, y);
         }
     }
 }
